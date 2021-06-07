@@ -2,13 +2,12 @@ import './css/main.css';
 import fetchCountries from './js/country-service';
 import countriesTpl from './templates/countriesList.hbs';
 import countryTpl from './templates/country.hbs';
-import { alert, defaultModules, defaultStack } from '@pnotify/core';
+import { alert, defaults } from '@pnotify/core';
 import '@pnotify/core/dist/BrightTheme.css';
+import '@pnotify/core/dist/PNotify.css';
+import debounce from 'lodash.debounce';
 
-const debounce = require('lodash.debounce');
-const { defaults } = require('@pnotify/core');
 defaults.delay = '2000';
-defaults.sticker = false;
 
 const refs = {
     input: document.querySelector('.js-input'),
@@ -21,7 +20,10 @@ refs.input.addEventListener('input', debounce(onSearch, 500));
 function onSearch(e) {
     const query = e.target.value;
     clear();
-
+    if (!query) {
+        alert('plz, write word or letter');
+        return;
+    }
     fetchCountries(query)
         .then(countries => {
             if (countries.status === 404) {
@@ -36,18 +38,15 @@ function onSearch(e) {
                     'Too many matches found. Please enter a more specific query!',
                 );
         })
-        .catch(error => alert('plz, write word or letter'));
+        .catch(error => alert('something wrong...'));
 }
 
 function appendCountriesMarkup(countries) {
-    refs.countriesContainer.insertAdjacentHTML(
-        'beforeend',
-        countriesTpl(countries),
-    );
+    refs.countriesContainer.innerHTML = countriesTpl(countries);
 }
 
 function appendCountryMarkup(countries) {
-    refs.country.insertAdjacentHTML('beforeend', countryTpl(...countries));
+    refs.country.innerHTML = countryTpl(...countries);
 }
 
 function clear() {
