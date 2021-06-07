@@ -16,7 +16,7 @@ const refs = {
     country: document.querySelector('.js-country'),
 };
 
-refs.input.addEventListener('input', debounce(onSearch, 1000));
+refs.input.addEventListener('input', debounce(onSearch, 500));
 
 function onSearch(e) {
     const query = e.target.value;
