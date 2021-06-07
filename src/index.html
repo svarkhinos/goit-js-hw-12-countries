@@ -7,6 +7,20 @@
         <title>Countries</title>
     </head>
     <body>
+        <form class="search-form">
+            <label class="search-label" for="searchQuery"
+                >Enter the letter</label
+            >
+            <input
+                name="searchQuery"
+                type="text"
+                class="input js-input"
+                autocomplete="off"
+            />
+        </form>
+        <div class="country-container js-country"></div>
+        <ul class="countries-container js-countries-container"></ul>
+
         <script src="./index.js"></script>
     </body>
 </html>
